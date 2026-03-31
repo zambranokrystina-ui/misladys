@@ -1,0 +1,525 @@
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blanco:       #FDFAF5;
+  --crema:        #F5EDD8;
+  --crema2:       #EDE0C4;
+  --teal:         #2D7A7A;
+  --teal-claro:   #3D9999;
+  --teal-pale:    #EAF4F4;
+  --dorado:       #C8913A;
+  --dorado-claro: #E8C98A;
+  --terracota:    #C4613A;
+  --texto:        #2A2018;
+  --texto-suave:  #7A6A58;
+  --borde:        rgba(200,145,58,0.18);
+  --borde-teal:   rgba(45,122,122,0.15);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--blanco);
+  color: var(--texto);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%,    rgba(45,122,122,0.06) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%, rgba(196,97,58,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 30%,   rgba(200,145,58,0.03) 0%, transparent 60%);
+  pointer-events:none; z-index:0;
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 24px 64px;
+}
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  padding: 44px 0 36px;
+  border-bottom: 0.5px solid var(--borde);
+  margin-bottom: 52px;
+}
+.logo-wrap {
+  width: 72px; height: 72px;
+  margin: 0 auto 16px;
+  animation: flotar 6s ease-in-out infinite;
+}
+.logo-wrap img { width:100%; height:100%; object-fit:contain; }
+@keyframes flotar {
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+.marca {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px; letter-spacing: 0.38em;
+  text-transform: uppercase; color: var(--texto-suave);
+}
+
+/* ── HERO ── */
+.hero {
+  text-align: center;
+  margin-bottom: 52px;
+}
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 20px;
+}
+.eyebrow span { width:24px; height:0.5px; background:var(--teal); opacity:0.5; }
+.hero-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(34px, 6vw, 52px);
+  font-weight: 300; line-height: 1.15;
+  color: var(--texto); margin-bottom: 18px;
+}
+.hero-titulo em { font-style:italic; color:var(--teal); }
+.hero-sub {
+  font-size: 15px; line-height: 1.8;
+  color: var(--texto-suave);
+  max-width: 480px; margin: 0 auto 28px;
+}
+.chips {
+  display: flex; flex-wrap: wrap;
+  justify-content: center; gap: 10px;
+}
+.chip {
+  background: var(--teal-pale);
+  border: 0.5px solid var(--borde-teal);
+  border-radius: 99px;
+  padding: 7px 16px;
+  font-size: 12px; color: var(--teal);
+}
+
+/* ornamento */
+.ornamento {
+  display:flex; align-items:center; justify-content:center;
+  gap:14px; margin:36px 0; opacity:0.35;
+}
+.ornamento::before,.ornamento::after {
+  content:''; flex:1; max-width:70px; height:0.5px;
+}
+.ornamento::before { background:linear-gradient(90deg,transparent,var(--dorado)); }
+.ornamento::after  { background:linear-gradient(270deg,transparent,var(--dorado)); }
+.rombo { width:5px; height:5px; background:var(--dorado); transform:rotate(45deg); }
+
+/* ── SERVICIOS ── */
+.servicios-titulo {
+  text-align: center; margin-bottom: 32px;
+}
+.st-eyebrow {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 12px;
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+.st-eyebrow::before,.st-eyebrow::after {
+  content:''; width:28px; height:0.5px;
+  background:var(--teal); opacity:0.4;
+}
+.st-h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px,5vw,36px);
+  font-weight: 300; line-height:1.25; color:var(--texto);
+}
+.st-h2 em { font-style:italic; color:var(--teal); }
+
+.servicios { display:grid; gap:20px; margin-bottom:52px; }
+
+.serv {
+  background: #fff;
+  border: 0.5px solid var(--borde);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 24px rgba(42,32,24,0.05);
+  display: flex;
+  align-items: stretch;
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+.serv:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 32px rgba(42,32,24,0.09);
+}
+.serv-acento {
+  width: 4px;
+  flex-shrink: 0;
+}
+.s1 .serv-acento { background: linear-gradient(180deg,#3D9999,#7BC8C8); }
+.s2 .serv-acento { background: linear-gradient(180deg,#5C7A2D,#9ABE5C); }
+.s3 .serv-acento { background: linear-gradient(180deg,#C4613A,#E8A070); }
+.s4 .serv-acento { background: linear-gradient(180deg,#7A5C9A,#B89AD4); }
+
+.serv-body {
+  flex: 1;
+  padding: 24px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.serv-left {
+  display: flex; align-items: center; gap: 14px;
+  flex: 1; min-width: 200px;
+}
+.serv-icono { font-size: 28px; flex-shrink:0; }
+.serv-info {}
+.serv-nombre {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400;
+  color: var(--texto); line-height: 1.2;
+  margin-bottom: 4px;
+}
+.serv-nombre em { font-style:italic; color:var(--teal); }
+.s3 .serv-nombre em { color:var(--terracota); }
+.s2 .serv-nombre em { color:#5C7A2D; }
+.s4 .serv-nombre em { color:#7A5C9A; }
+.serv-ideal {
+  font-size: 12px; color:var(--texto-suave);
+  font-style: italic; line-height: 1.4;
+}
+.serv-right {
+  display: flex; align-items: center; gap: 14px;
+  flex-shrink: 0;
+}
+.serv-precio {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px; font-weight: 400;
+  line-height: 1;
+}
+.s1 .serv-precio { color:var(--teal); }
+.s2 .serv-precio { color:#5C7A2D; }
+.s3 .serv-precio { color:var(--terracota); }
+.s4 .serv-precio { color:#7A5C9A; }
+
+/* ── INCLUYE (expandible) ── */
+.serv-detalle {
+  background: var(--blanco);
+  border-top: 0.5px solid rgba(45,122,122,0.08);
+  padding: 0 28px 0 46px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.3s ease;
+}
+.serv.abierto .serv-detalle {
+  max-height: 300px;
+  padding: 16px 28px 20px 46px;
+}
+.serv-lista {
+  list-style: none;
+}
+.serv-lista li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; line-height: 1.65; color:var(--texto);
+  padding: 6px 0;
+  border-bottom: 0.5px solid rgba(45,122,122,0.07);
+}
+.serv-lista li:last-child { border-bottom:none; }
+.check {
+  flex-shrink:0; width:16px; height:16px;
+  border-radius: 50%; display:flex;
+  align-items:center; justify-content:center;
+  font-size:9px; color:#fff; margin-top:2px;
+}
+.s1 .check { background:var(--teal); }
+.s2 .check { background:#5C7A2D; }
+.s3 .check { background:var(--terracota); }
+.s4 .check { background:#7A5C9A; }
+
+.btn-detalle {
+  background: none; border:none;
+  font-family:'Jost',sans-serif;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  cursor: pointer; padding: 0;
+  transition: color 0.2s;
+  flex-shrink: 0;
+}
+.s1 .btn-detalle { color:var(--teal); }
+.s2 .btn-detalle { color:#5C7A2D; }
+.s3 .btn-detalle { color:var(--terracota); }
+.s4 .btn-detalle { color:#7A5C9A; }
+.btn-detalle:hover { opacity:0.7; }
+
+/* ── GARANTIA ── */
+.garantia {
+  background: var(--teal-pale);
+  border: 0.5px solid var(--borde-teal);
+  border-radius: 16px;
+  padding: 28px 32px;
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 52px;
+}
+.gar-icono { font-size: 28px; flex-shrink:0; margin-top:2px; }
+.gar-titulo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px; font-weight: 400;
+  color: var(--texto); margin-bottom: 6px;
+}
+.gar-titulo em { font-style:italic; color:var(--teal); }
+.gar-texto {
+  font-size: 13px; line-height: 1.75;
+  color: var(--texto-suave);
+}
+
+/* ── TESTIMONIOS ── */
+.test-titulo {
+  text-align:center; margin-bottom:28px;
+}
+.test-titulo p {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px,4vw,30px);
+  font-weight:300; color:var(--texto);
+}
+.test-titulo p em { font-style:italic; color:var(--teal); }
+
+.testimonios {
+  display: grid; gap: 16px;
+  margin-bottom: 52px;
+}
+.testimonio {
+  background: #fff;
+  border: 0.5px solid var(--borde);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  position: relative;
+  box-shadow: 0 2px 20px rgba(42,32,24,0.04);
+}
+.comilla {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 60px; line-height:0.5;
+  color: var(--dorado-claro); opacity:0.5;
+  position:absolute; top:20px; left:22px;
+  pointer-events:none;
+}
+.test-texto {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px; font-style:italic;
+  font-weight:300; line-height:1.65;
+  color: var(--texto);
+  padding-left: 16px; margin-bottom:18px;
+  position:relative; z-index:1;
+}
+.test-autor {
+  display:flex; align-items:center; gap:12px;
+  padding-left:16px;
+}
+.autor-avatar {
+  width:36px; height:36px;
+  border-radius:50%;
+  background:var(--teal-pale);
+  border:0.5px solid var(--borde-teal);
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px; color:var(--teal);
+  overflow:hidden; flex-shrink:0;
+}
+.autor-avatar img { width:100%; height:100%; object-fit:cover; }
+.autor-nombre {
+  font-size:13px; font-weight:500;
+  color:var(--texto); display:block;
+}
+.autor-desc {
+  font-size:11px; color:var(--texto-suave);
+}
+.estrellas {
+  color:var(--dorado); font-size:12px;
+  letter-spacing:1px; display:block;
+  margin-bottom:2px;
+}
+
+/* ── FAQ ── */
+.faq-titulo {
+  text-align:center; margin-bottom:28px;
+}
+.faq-titulo p {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,4vw,30px);
+  font-weight:300; color:var(--texto);
+}
+.faq-titulo p em { font-style:italic; color:var(--teal); }
+
+.faq { margin-bottom: 52px; }
+.faq details {
+  border-bottom: 0.5px solid var(--borde);
+}
+.faq summary {
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding: 18px 0; cursor:pointer;
+  font-size:14px; font-weight:400; color:var(--texto);
+  transition:color 0.2s; list-style:none;
+}
+.faq summary::-webkit-details-marker { display:none; }
+.faq summary:hover { color:var(--teal); }
+.faq-plus {
+  flex-shrink:0; width:20px; height:20px;
+  border:0.5px solid var(--borde-teal);
+  border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; color:var(--teal);
+  transition:transform 0.25s;
+}
+details[open] .faq-plus { transform:rotate(45deg); }
+.faq-resp {
+  font-size:13px; line-height:1.8;
+  color:var(--texto-suave); padding-bottom:18px;
+  max-width:560px;
+}
+
+/* ── CTA WHATSAPP ── */
+.cta-wa {
+  background:#fff;
+  border:0.5px solid var(--borde);
+  border-radius:20px;
+  padding:40px;
+  text-align:center;
+  position:relative; overflow:hidden;
+  box-shadow:0 4px 32px rgba(42,32,24,0.06);
+  margin-bottom:52px;
+}
+.cta-wa::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; height:2px;
+  background:linear-gradient(90deg,var(--teal),var(--dorado),var(--terracota));
+  opacity:0.6;
+}
+.cta-wa-eyebrow {
+  font-size:11px; font-weight:500;
+  letter-spacing:0.28em; text-transform:uppercase;
+  color:var(--dorado); margin-bottom:14px;
+}
+.cta-wa-titulo {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(22px,4vw,30px);
+  font-weight:300; line-height:1.3;
+  color:var(--texto); margin-bottom:12px;
+}
+.cta-wa-titulo em { font-style:italic; color:var(--teal); }
+.cta-wa-texto {
+  font-size:14px; line-height:1.75;
+  color:var(--texto-suave); margin-bottom:24px;
+  max-width:400px; margin-left:auto; margin-right:auto;
+}
+.btn-wa {
+  display:inline-flex; align-items:center; gap:10px;
+  padding:16px 36px;
+  background:var(--teal); color:#fff;
+  border:none; border-radius:12px;
+  font-family:'Jost',sans-serif;
+  font-size:13px; font-weight:500;
+  letter-spacing:0.1em; text-transform:uppercase;
+  cursor:pointer; transition:all 0.22s ease;
+  text-decoration:none; margin-bottom:10px;
+}
+.btn-wa:hover {
+  background:var(--teal-claro);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(45,122,122,0.28);
+}
+.cta-wa-sub {
+  font-size:12px; color:var(--texto-suave);
+  margin-top:12px; opacity:0.7;
+}
+.cta-wa-sub a { color:var(--teal); text-decoration:none; }
+
+.flecha { display:inline-block; animation:moverFlecha 1.6s ease-in-out infinite; }
+@keyframes moverFlecha { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
+
+@media(max-width:540px){
+  .serv-body { flex-direction:column; align-items:flex-start; gap:12px; }
+  .serv-right { flex-direction:row; align-items:center; }
+  .garantia { flex-direction:column; gap:10px; }
+  .cta-wa { padding:28px 20px; }
+}
+</style>
+
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-wrap">
+      <img src="https://i.ibb.co/TDRcVvxj/Dise-o-sin-t-tulo-6.png" alt="Espazio con Propósito">
+    </div>
+    <p class="marca">Espazio con Propósito</p>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="eyebrow"><span></span> Reserva tu sesión <span></span></div>
+    <h1 class="hero-titulo">🌸 Reiki Energético</h1>
+    <p class="hero-sub">Estás a un paso de liberar lo que tu espacio ha estado cargando. El Reiki aplicado a tu hogar transforma desde adentro.</p>
+    <div class="chips">
+      <span class="chip">✦ 100% online</span>
+      <span class="chip">✦ Sesión personalizada</span>
+      <span class="chip">✦ Pago seguro</span>
+    </div>
+  </div>
+
+  <!-- SERVICIO ÚNICO -->
+  <div class="servicios-titulo">
+    <p class="st-eyebrow">Lo que incluye</p>
+    <h2 class="st-h2">Tu sesión de <em>sanación y liberación</em></h2>
+  </div>
+
+  <div class="servicios">
+    <!-- REIKI -->
+    <div class="serv s3" onclick="toggleDetalle(this)">
+      <div class="serv-acento"></div>
+      <div style="flex:1;">
+        <div class="serv-body">
+          <div class="serv-left">
+            <span class="serv-icono">🌸</span>
+            <div class="serv-info">
+              <p class="serv-nombre">Reiki <em>Energético</em></p>
+              <p class="serv-ideal">Ideal para: bloqueos, duelos, transiciones</p>
+            </div>
+          </div>
+          <div class="serv-right">
+            <span class="serv-precio">$160</span>
+            <button class="btn-detalle">Ver más ↓</button>
+          </div>
+        </div>
+        <div class="serv-detalle">
+          <ul class="serv-lista">
+            <li><span class="check">✓</span> Sesión de Reiki aplicada a la persona y al espacio</li>
+            <li><span class="check">✓</span> Trabajo energético con intención consciente</li>
+            <li><span class="check">✓</span> Ordenar la energía cuando las emociones pesan</li>
+            <li><span class="check">✓</span> Cierre y recomendaciones post sesión</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GARANTIA -->
+  <div class="garantia">
+    <span class="gar-icono">🌐</span>
+    <div>
+      <p class="gar-titulo">100% online · <em>La energía no tiene distancia</em></p>
+      <p class="gar-texto">Todas las sesiones se realizan de manera virtual a través de conexión energética e intención consciente. Trabajo con fotos, dirección y nombre de tu espacio. No necesitas estar presente — aunque si puedes estarlo, mejor.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggleDetalle(serv) {
+  const estaAbierto = serv.classList.contains('abierto');
+  document.querySelectorAll('.serv').forEach(s => {
+    s.classList.remove('abierto');
+    const btn = s.querySelector('.btn-detalle');
+    if(btn) btn.textContent = 'Ver más ↓';
+  });
+  if(!estaAbierto) {
+    serv.classList.add('abierto');
+    const btn = serv.querySelector('.btn-detalle');
+    if(btn) btn.textContent = 'Ver menos ↑';
+  }
+}
+</script>
