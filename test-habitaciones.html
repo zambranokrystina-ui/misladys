@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test de Habitaciones · Espazio con Propósito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blanco:       #FDFAF5;
+  --crema:        #F5EDD8;
+  --crema2:       #EDE0C4;
+  --teal:         #2D7A7A;
+  --teal-claro:   #3D9999;
+  --teal-pale:    #EAF4F4;
+  --dorado:       #C8913A;
+  --dorado-claro: #E8C98A;
+  --terracota:    #C4613A;
+  --texto:        #2A2018;
+  --texto-suave:  #7A6A58;
+  --borde:        rgba(200,145,58,0.18);
+  --borde-teal:   rgba(45,122,122,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body {
+  background:var(--blanco);
+  color:var(--texto);
+  font-family:'Jost',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+body::before {
+  content:''; position:fixed; inset:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 0% 0%,   rgba(45,122,122,0.06) 0%,transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 100%,rgba(196,97,58,0.05) 0%,transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 30%,  rgba(200,145,58,0.03) 0%,transparent 60%);
+  pointer-events:none; z-index:0;
+}
+.contenedor {
+  position:relative; z-index:1;
+  max-width:680px;
+  margin:0 auto;
+  padding:0 24px 100px;
+}
+
+/* HEADER */
+.header { text-align:center; padding:44px 0 36px; }
+.logo-wrap { width:72px; height:72px; margin:0 auto 16px; animation:flotar 6s ease-in-out infinite; }
+.logo-wrap img { width:100%; height:100%; object-fit:contain; }
+@keyframes flotar { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-5px);} }
+.marca { font-family:'Cormorant Garamond',serif; font-size:12px; letter-spacing:0.38em; text-transform:uppercase; color:var(--texto-suave); }
+
+/* HERO */
+.hero { text-align:center; margin-bottom:48px; }
+.eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:11px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--teal); margin-bottom:20px; }
+.eyebrow span { width:24px; height:0.5px; background:var(--teal); opacity:0.5; }
+.hero-titulo { font-family:'Cormorant Garamond',serif; font-size:clamp(34px,6vw,50px); font-weight:300; line-height:1.15; color:var(--texto); margin-bottom:18px; }
+.hero-titulo em { font-style:italic; color:var(--teal); }
+.hero-sub { font-size:15px; line-height:1.8; color:var(--texto-suave); max-width:480px; margin:0 auto 28px; }
+.chips { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:0; }
+.chip { background:var(--teal-pale); border:0.5px solid var(--borde-teal); border-radius:99px; padding:7px 16px; font-size:12px; color:var(--teal); }
+
+/* ORNAMENTO */
+.ornamento { display:flex; align-items:center; justify-content:center; gap:14px; margin:32px 0; opacity:0.35; }
+.ornamento::before,.ornamento::after { content:''; flex:1; max-width:70px; height:0.5px; }
+.ornamento::before { background:linear-gradient(90deg,transparent,var(--dorado)); }
+.ornamento::after  { background:linear-gradient(270deg,transparent,var(--dorado)); }
+.rombo { width:5px; height:5px; background:var(--dorado); transform:rotate(45deg); }
+
+/* PROGRESO */
+.progreso-wrap { margin-bottom:36px; }
+.progreso-header { display:flex; justify-content:space-between; margin-bottom:10px; }
+.p-label { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--texto-suave); }
+.p-num { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--dorado); }
+.barra { height:2px; background:var(--crema2); border-radius:2px; overflow:hidden; }
+.barra-fill { height:100%; background:linear-gradient(90deg,var(--teal),var(--dorado)); border-radius:2px; transition:width 0.55s cubic-bezier(.4,0,.2,1); }
+.puntos { display:flex; justify-content:center; gap:8px; margin-top:12px; }
+.punto { width:6px; height:6px; border-radius:50%; background:var(--crema2); border:0.5px solid var(--crema2); transition:all 0.3s ease; }
+.punto.activo { background:var(--dorado); border-color:var(--dorado); transform:scale(1.2); }
+.punto.hecho { background:var(--teal); border-color:var(--teal); }
+
+/* TARJETA */
+.tarjeta { background:#fff; border:0.5px solid var(--borde); border-radius:20px; padding:40px 36px 36px; position:relative; overflow:hidden; box-shadow:0 2px 28px rgba(42,32,24,0.05); animation:entrar 0.4s cubic-bezier(.4,0,.2,1) both; margin-bottom:24px; }
+@keyframes entrar { from{opacity:0;transform:translateY(14px);} to{opacity:1;transform:translateY(0);} }
+.tarjeta::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--teal),var(--dorado),var(--terracota)); opacity:0.6; }
+.tarjeta-acento { position:absolute; top:-40px; right:-40px; width:150px; height:150px; border-radius:50%; background:radial-gradient(circle,rgba(45,122,122,0.06) 0%,transparent 70%); pointer-events:none; }
+
+.habitacion-icono { font-size:36px; margin-bottom:12px; display:block; }
+.n-pregunta { font-size:11px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--teal-claro); margin-bottom:10px; }
+.texto-pregunta { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,4vw,26px); font-weight:300; line-height:1.45; color:var(--texto); margin-bottom:28px; }
+
+/* OPCIONES */
+.opciones { display:grid; gap:11px; }
+.opcion { display:flex; align-items:flex-start; gap:14px; padding:15px 18px; background:var(--blanco); border:0.5px solid var(--borde-teal); border-radius:12px; cursor:pointer; transition:all 0.22s ease; user-select:none; position:relative; overflow:hidden; }
+.opcion:hover { border-color:rgba(45,122,122,0.4); background:var(--teal-pale); transform:translateX(3px); }
+.opcion.seleccionada { border-color:var(--teal); background:var(--teal-pale); transform:translateX(3px); }
+.opcion.seleccionada .opcion-letra { background:var(--teal); color:#fff; border-color:var(--teal); }
+.opcion-letra { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:0.5px solid rgba(45,122,122,0.3); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--teal); transition:all 0.22s ease; }
+.opcion-texto { font-size:14px; line-height:1.55; color:var(--texto); padding-top:3px; }
+
+/* BOTONES */
+.btn-siguiente { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:16px 32px; background:var(--teal); color:#fff; border:none; border-radius:12px; font-family:'Jost',sans-serif; font-size:14px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.22s ease; }
+.btn-siguiente:hover:not(:disabled) { background:var(--teal-claro); transform:translateY(-1px); box-shadow:0 6px 20px rgba(45,122,122,0.25); }
+.btn-siguiente:disabled { opacity:0.4; cursor:not-allowed; }
+.btn-anterior { display:flex; align-items:center; justify-content:center; gap:8px; background:none; border:none; color:var(--texto-suave); font-family:'Jost',sans-serif; font-size:13px; cursor:pointer; padding:10px 0; margin-top:12px; transition:color 0.2s; width:100%; }
+.btn-anterior:hover { color:var(--teal); }
+
+/* FORMULARIO */
+.form-label { display:block; font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--texto-suave); margin-bottom:8px; }
+.form-input { width:100%; padding:14px 18px; background:var(--blanco); border:0.5px solid var(--borde); border-radius:10px; font-family:'Jost',sans-serif; font-size:15px; font-weight:300; color:var(--texto); outline:none; transition:border-color 0.2s; margin-bottom:16px; }
+.form-input:focus { border-color:var(--teal); }
+.form-input::placeholder { color:rgba(122,106,88,0.5); }
+.privacidad { font-size:11px; color:var(--texto-suave); text-align:center; margin-top:14px; line-height:1.6; opacity:0.7; }
+
+/* RESULTADO */
+.resultado-icono { text-align:center; margin-bottom:20px; font-size:48px; }
+.resultado-tipo { font-family:'Cormorant Garamond',serif; font-size:12px; letter-spacing:0.35em; text-transform:uppercase; color:var(--teal-claro); margin-bottom:8px; display:block; }
+.resultado-titulo { font-family:'Cormorant Garamond',serif; font-size:clamp(26px,5vw,36px); font-weight:300; line-height:1.2; color:var(--texto); margin-bottom:16px; }
+.resultado-titulo em { font-style:italic; color:var(--teal); }
+.resultado-desc { font-size:15px; line-height:1.85; color:var(--texto-suave); margin-bottom:28px; }
+.resultado-desc strong { color:var(--texto); font-weight:500; }
+
+.hab-diagnostico { background:var(--teal-pale); border:0.5px solid var(--borde-teal); border-radius:14px; padding:24px 28px; margin-bottom:20px; }
+.hab-titulo { font-size:11px; font-weight:500; letter-spacing:0.26em; text-transform:uppercase; color:var(--teal); margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+.hab-titulo::after { content:''; flex:1; height:0.5px; background:linear-gradient(90deg,var(--teal),transparent); opacity:0.3; }
+.hab-item { display:flex; align-items:flex-start; gap:12px; font-size:14px; line-height:1.65; color:var(--texto); padding:8px 0; border-bottom:0.5px solid rgba(45,122,122,0.1); }
+.hab-item:last-child { border-bottom:none; }
+.hab-check { flex-shrink:0; width:20px; height:20px; background:var(--teal); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; color:#fff; margin-top:2px; }
+
+/* CTA */
+.cta-bloque { background:#fff; border:0.5px solid var(--borde); border-radius:16px; padding:36px 32px; text-align:center; position:relative; overflow:hidden; }
+.cta-bloque::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--teal),var(--dorado)); opacity:0.6; }
+.cta-eyebrow { font-size:11px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--dorado); margin-bottom:14px; }
+.cta-titulo { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,4vw,28px); font-weight:300; line-height:1.35; color:var(--texto); margin-bottom:12px; }
+.cta-titulo em { font-style:italic; color:var(--teal); }
+.cta-texto { font-size:14px; line-height:1.75; color:var(--texto-suave); margin-bottom:24px; max-width:400px; margin-left:auto; margin-right:auto; }
+.btn-cta { display:inline-flex; align-items:center; gap:10px; padding:16px 36px; background:var(--teal); color:#fff; border:none; border-radius:12px; font-family:'Jost',sans-serif; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.22s ease; text-decoration:none; }
+.btn-cta:hover { background:var(--teal-claro); transform:translateY(-2px); box-shadow:0 8px 24px rgba(45,122,122,0.28); }
+.cta-garantia { font-size:12px; color:var(--texto-suave); margin-top:12px; opacity:0.7; }
+
+.flecha { display:inline-block; animation:moverFlecha 1.6s ease-in-out infinite; }
+@keyframes moverFlecha { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
+
+.footer { text-align:center; padding:40px 0 24px; opacity:0.4; }
+.footer p { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--texto-suave); }
+
+@media(max-width:520px){ .tarjeta { padding:28px 20px 24px; } .cta-bloque { padding:28px 20px; } }
+</style>
+</head>
+<body>
+<div class="contenedor">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-wrap"><img src="https://i.ibb.co/TDRcVvxj/Dise-o-sin-t-tulo-6.png" alt="Espazio con Propósito"></div>
+    <p class="marca">Espazio con Propósito</p>
+  </div>
+
+  <!-- PANTALLA INTRO -->
+  <div id="pantalla-intro">
+    <div class="hero">
+      <div class="eyebrow"><span></span> Diagnóstico gratuito <span></span></div>
+      <h1 class="hero-titulo">¿Qué te está diciendo<br>tu <em>hogar</em>?</h1>
+      <p class="hero-sub">Cada habitación guarda información sobre tu estado emocional. En 5 preguntas descubrirás qué te está comunicando tu espacio — y qué puedes hacer para transformarlo.</p>
+      <div class="chips">
+        <span class="chip">✦ 5 preguntas</span>
+        <span class="chip">✦ 2 minutos</span>
+        <span class="chip">✦ Diagnóstico personalizado</span>
+        <span class="chip">✦ 100% gratuito</span>
+      </div>
+      <div class="ornamento"><div class="rombo"></div></div>
+      <button class="btn-siguiente" onclick="iniciarTest()" style="max-width:320px;margin:0 auto;">
+        Descubrir qué me dice mi hogar <span class="flecha">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- PANTALLA TEST -->
+  <div id="pantalla-test" style="display:none;">
+    <div class="progreso-wrap">
+      <div class="progreso-header">
+        <span class="p-label">Tu diagnóstico</span>
+        <span class="p-num" id="progreso-num">Pregunta 1 de 5</span>
+      </div>
+      <div class="barra"><div class="barra-fill" id="barra-fill" style="width:20%"></div></div>
+      <div class="puntos" id="puntos-wrap">
+        <div class="punto activo" id="p0"></div>
+        <div class="punto" id="p1"></div>
+        <div class="punto" id="p2"></div>
+        <div class="punto" id="p3"></div>
+        <div class="punto" id="p4"></div>
+      </div>
+    </div>
+    <div id="contenido-pregunta"></div>
+    <div style="text-align:center;">
+      <button class="btn-siguiente" id="btn-siguiente" onclick="siguiente()" disabled>Continuar <span class="flecha">→</span></button>
+      <button class="btn-anterior" id="btn-anterior" onclick="anterior()" style="display:none;">← Volver</button>
+    </div>
+  </div>
+
+  <!-- PANTALLA CAPTURA -->
+  <div id="pantalla-captura" style="display:none;">
+    <div class="tarjeta">
+      <div class="tarjeta-acento"></div>
+      <div class="ornamento" style="justify-content:flex-start;margin-bottom:20px;opacity:0.4;"><div class="rombo"></div></div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(24px,5vw,32px);font-weight:300;line-height:1.3;margin-bottom:10px;">
+        Tu diagnóstico está <em style="font-style:italic;color:var(--teal);">listo</em>
+      </h2>
+      <p style="font-size:15px;color:var(--texto-suave);line-height:1.7;margin-bottom:28px;">
+        Déjame tu nombre, correo y teléfono para enviarte el análisis completo de tu hogar con recomendaciones personalizadas.
+      </p>
+      <label class="form-label">Tu nombre</label>
+      <input class="form-input" type="text" id="campo-nombre" placeholder="¿Cómo te llamas?" autocomplete="given-name">
+      <label class="form-label">Tu correo electrónico</label>
+      <input class="form-input" type="email" id="campo-email" placeholder="tu@correo.com" autocomplete="email">
+      <label class="form-label">Tu teléfono (WhatsApp)</label>
+      <input class="form-input" type="tel" id="campo-telefono" placeholder="+1 (000) 000-0000" autocomplete="tel">
+      <button class="btn-siguiente" onclick="verResultado()" id="btn-ver-resultado" style="margin-top:8px;">
+        Ver mi diagnóstico <span class="flecha">→</span>
+      </button>
+      <p class="privacidad">🔒 Tu información está segura. No compartimos tus datos ni enviamos spam.</p>
+    </div>
+  </div>
+
+  <!-- PANTALLA RESULTADO -->
+  <div id="pantalla-resultado" style="display:none;">
+    <div class="tarjeta" style="margin-bottom:20px;">
+      <div class="tarjeta-acento"></div>
+      <div id="resultado-contenido"></div>
+    </div>
+    <div id="cta-final"></div>
+  </div>
+
+  <div class="footer"><p>© Espazio con Propósito · Misladys Rivero</p></div>
+</div>
+
+<script>
+// ── PREGUNTAS ──
+const preguntas = [
+  {
+    id: 0,
+    habitacion: 'La Sala',
+    icono: '🛋️',
+    texto: '¿Cómo describes el ambiente de tu sala en este momento?',
+    opciones: [
+      { id:'A', texto:'Se siente llena de cosas — hay objetos acumulados que no sé por qué tengo ahí' },
+      { id:'B', texto:'Está oscura o poco iluminada, no me dan ganas de estar mucho tiempo en ella' },
+      { id:'C', texto:'Es un espacio donde no me quedo — entro, hago algo y salgo rápido' },
+      { id:'D', texto:'Me siento bien en ella, es un espacio que me recarga' },
+    ]
+  },
+  {
+    id: 1,
+    habitacion: 'El Dormitorio',
+    icono: '🌙',
+    texto: '¿Cómo te sientes cuando entras a tu dormitorio al final del día?',
+    opciones: [
+      { id:'A', texto:'Siento una pesadez — como que el cuarto carga algo que no debería estar ahí' },
+      { id:'B', texto:'Me cuesta descansar bien, me despierto cansada aunque haya dormido horas' },
+      { id:'C', texto:'Hay ropa, objetos o cosas del pasado que no puedo soltar aunque quiera' },
+      { id:'D', texto:'Es mi refugio real — entro y el cuerpo suelta inmediatamente' },
+    ]
+  },
+  {
+    id: 2,
+    habitacion: 'La Cocina',
+    icono: '🌿',
+    texto: '¿Qué sientes cuando piensas en tu cocina?',
+    opciones: [
+      { id:'A', texto:'Es un espacio que descuido — pocas veces está ordenada o con lo que necesito' },
+      { id:'B', texto:'Cocinar es una obligación, no un placer — prefiero no estar mucho ahí' },
+      { id:'C', texto:'Hay una sensación de escasez — como si nunca hubiera suficiente' },
+      { id:'D', texto:'Me gusta mi cocina, es un espacio que me nutre y disfruto' },
+    ]
+  },
+  {
+    id: 3,
+    habitacion: 'El Baño',
+    icono: '💧',
+    texto: '¿Cómo es tu relación con tu baño?',
+    opciones: [
+      { id:'A', texto:'Hay objetos acumulados, desorganización — me cuesta mantenerlo en orden' },
+      { id:'B', texto:'Se siente húmedo, oscuro o pesado — no me genera paz estar ahí' },
+      { id:'C', texto:'Mi rutina del baño es pura obligación — no disfruto ese tiempo para mí' },
+      { id:'D', texto:'El baño es mi espacio de ritual — me recarga y me prepara para el día' },
+    ]
+  },
+  {
+    id: 4,
+    habitacion: 'Tu Espacio de Trabajo',
+    icono: '✨',
+    texto: '¿Qué pasa cuando te sientas a trabajar en casa?',
+    opciones: [
+      { id:'A', texto:'El desorden del espacio me dispersa — me cuesta concentrarme y priorizar' },
+      { id:'B', texto:'Evito ese espacio — me genera resistencia o agotamiento antes de empezar' },
+      { id:'C', texto:'No tengo un espacio propio de trabajo — trabajo en cualquier rincón' },
+      { id:'D', texto:'Mi espacio de trabajo me inspira y me da energía para crear' },
+    ]
+  },
+];
+
+// ── DIAGNÓSTICOS ──
+const diagnosticos = {
+  A: { // Acumulación / carga
+    titulo: 'Tu hogar carga lo que tú necesitas <em>soltar</em>',
+    icono: '🌀',
+    tipo: 'Patrón de Acumulación Energética',
+    desc: 'Tu espacio está guardando objetos, memorias y emociones que ya no te pertenecen. Esta acumulación se siente en el cuerpo — como un peso invisible que no desaparece aunque cambies de ambiente. <strong>Tu hogar está listo para soltar, igual que tú.</strong>',
+    señales: [
+      'Dificultad para descansar y desconectar en casa',
+      'Objetos del pasado que no puedes eliminar aunque quieras',
+      'Sensación de que el hogar "pesa" en lugar de alivianar',
+    ]
+  },
+  B: { // Bloqueo / densidad
+    titulo: 'Tu hogar necesita <em>luz y movimiento</em>',
+    icono: '🌊',
+    tipo: 'Patrón de Energía Bloqueada',
+    desc: 'La energía de tu espacio está estancada — sin flujo, sin vida, sin renovación. Cuando vivimos en un ambiente denso y sin movimiento energético, nuestro cuerpo y mente también se detienen. <strong>Tu hogar necesita que la energía vuelva a circular.</strong>',
+    señales: [
+      'Cuerpo que no descansa aunque duerma suficiente',
+      'Espacios oscuros o poco habitados',
+      'Sensación de que el tiempo pasa lento en casa',
+    ]
+  },
+  C: { // Desconexión / vacío
+    titulo: 'Tu hogar y tú necesitan <em>reconectarse</em>',
+    icono: '🌿',
+    tipo: 'Patrón de Desconexión del Espacio',
+    desc: 'No te sientes en casa en tu propia casa. Hay una desconexión entre el espacio y quien lo habita — como si el hogar fuera de otro o de otra época de tu vida. <strong>Este espacio puede volver a ser tuyo de verdad.</strong>',
+    señales: [
+      'Resistencia a estar en determinadas habitaciones',
+      'Sensación de que el hogar pertenece al pasado',
+      'Dificultad para establecer rituales propios en casa',
+    ]
+  },
+  D: { // Equilibrio — ya está bien
+    titulo: 'Tu hogar tiene una <em>base energética sólida</em>',
+    icono: '✨',
+    tipo: 'Patrón de Equilibrio Energético',
+    desc: 'Tu espacio ya tiene una energía positiva y equilibrada. Lo que puedes hacer ahora es profundizar — afinar las frecuencias específicas de cada rincón para que tu hogar trabaje aún más activamente por tu bienestar. <strong>Siempre hay una capa más de transformación disponible.</strong>',
+    señales: [
+      'Reforzar la protección energética del espacio',
+      'Activar zonas de abundancia y creatividad',
+      'Crear rituales conscientes para mantener la energía',
+    ]
+  }
+};
+
+// ── ESTADO ──
+let preguntaActual = 0;
+let respuestas = {};
+let seleccionActual = null;
+
+// ── FUNCIONES ──
+function iniciarTest() {
+  document.getElementById('pantalla-intro').style.display = 'none';
+  document.getElementById('pantalla-test').style.display = 'block';
+  renderPregunta(0);
+}
+
+function renderPregunta(idx) {
+  const p = preguntas[idx];
+  seleccionActual = respuestas[idx] || null;
+
+  const pct = Math.round(((idx) / 5) * 100) + 20;
+  document.getElementById('barra-fill').style.width = pct + '%';
+  document.getElementById('progreso-num').textContent = `Pregunta ${idx+1} de 5`;
+
+  for(let i=0; i<5; i++) {
+    const el = document.getElementById('p'+i);
+    el.className = 'punto';
+    if(i < idx) el.classList.add('hecho');
+    if(i === idx) el.classList.add('activo');
+  }
+
+  document.getElementById('btn-anterior').style.display = idx > 0 ? 'block' : 'none';
+
+  const wrap = document.getElementById('contenido-pregunta');
+  let html = `<div class="tarjeta" style="margin-bottom:24px;">
+    <div class="tarjeta-acento"></div>
+    <span class="habitacion-icono">${p.icono}</span>
+    <p class="n-pregunta">${p.habitacion} · Pregunta ${idx+1}</p>
+    <p class="texto-pregunta">${p.texto}</p>
+    <div class="opciones">`;
+
+  p.opciones.forEach(op => {
+    const sel = seleccionActual === op.id ? 'seleccionada' : '';
+    html += `<div class="opcion ${sel}" onclick="elegir('${op.id}', this)" data-val="${op.id}">
+      <div class="opcion-letra">${op.id}</div>
+      <div class="opcion-texto">${op.texto}</div>
+    </div>`;
+  });
+
+  html += `</div></div>`;
+  wrap.innerHTML = html;
+  document.getElementById('btn-siguiente').disabled = !seleccionActual;
+}
+
+function elegir(val, el) {
+  seleccionActual = val;
+  respuestas[preguntaActual] = val;
+  const contenedor = el.closest('.opciones');
+  contenedor.querySelectorAll('.opcion').forEach(e => e.classList.remove('seleccionada'));
+  el.classList.add('seleccionada');
+  document.getElementById('btn-siguiente').disabled = false;
+}
+
+// URL de la página de captura en Systeme.io
+const URL_CAPTURA = 'https://www.espazioconproposito.com/test-habitaciones-captura';
+
+function siguiente() {
+  if(!seleccionActual) return;
+  if(preguntaActual < 4) {
+    preguntaActual++;
+    renderPregunta(preguntaActual);
+    window.scrollTo({top:0, behavior:'smooth'});
+  } else {
+    // Calcular diagnóstico y redirigir a Systeme.io con el resultado en URL
+    const key = calcularDiagnostico();
+    const mapKeys = {A:'acumulacion', B:'bloqueo', C:'desconexion', D:'equilibrio'};
+    const diagParam = mapKeys[key];
+    // Guardar también en sessionStorage como fallback
+    sessionStorage.setItem('diagnosticoHab', diagParam);
+    localStorage.setItem('diagnosticoHab', diagParam);
+    // Redirigir a Systeme.io
+    const url = URL_CAPTURA + '?diagnostico=' + diagParam;
+    window.top.location.href = url;
+  }
+}
+
+function anterior() {
+  if(preguntaActual > 0) {
+    preguntaActual--;
+    renderPregunta(preguntaActual);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function calcularDiagnostico() {
+  const conteo = {A:0, B:0, C:0, D:0};
+  Object.values(respuestas).forEach(r => { if(conteo[r] !== undefined) conteo[r]++; });
+  return Object.keys(conteo).reduce((a,b) => conteo[a] >= conteo[b] ? a : b);
+}
+
+async function enviarLead(nombre, email, telefono, diagnosticoTipo) {
+  try {
+    await fetch('https://hook.us2.make.com/wnxteu7aafbniiblfkxi8we8zkqe2gec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre: nombre,
+        email: email,
+        telefono: telefono,
+        diagnostico: diagnosticoTipo,
+        fuente: 'test-habitaciones'
+      })
+    });
+  } catch(e) { console.log('webhook error:', e); }
+}
+
+async function verResultado() {
+  const nombre = document.getElementById('campo-nombre').value.trim();
+  const email = document.getElementById('campo-email').value.trim();
+  const telefono = document.getElementById('campo-telefono').value.trim();
+
+  if(!nombre || !email || !telefono) {
+    alert('Por favor completa todos los campos para ver tu diagnóstico.');
+    return;
+  }
+  if(!/\S+@\S+\.\S+/.test(email)) {
+    alert('Por favor ingresa un correo válido.');
+    return;
+  }
+
+  const btn = document.getElementById('btn-ver-resultado');
+  btn.disabled = true;
+  btn.innerHTML = 'Preparando tu diagnóstico... 🌿';
+
+  const key = calcularDiagnostico();
+  const diag = diagnosticos[key];
+  const nombreCorto = nombre.split(' ')[0];
+
+  enviarLead(nombre, email, telefono, diag.tipo);
+
+  document.getElementById('pantalla-captura').style.display = 'none';
+  document.getElementById('pantalla-resultado').style.display = 'block';
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  // Resultado
+  const senalesHTML = diag.señales.map(s => `
+    <div class="hab-item"><span class="hab-check">✓</span> ${s}</div>`).join('');
+
+  document.getElementById('resultado-contenido').innerHTML = `
+    <div class="resultado-icono">${diag.icono}</div>
+    <span class="resultado-tipo">${diag.tipo}</span>
+    <h2 class="resultado-titulo">${diag.titulo}</h2>
+    <p class="resultado-desc">${diag.desc}</p>
+    <div class="hab-diagnostico">
+      <p class="hab-titulo">✦ Lo que está pasando en tu hogar</p>
+      ${senalesHTML}
+    </div>
+  `;
+
+  document.getElementById('cta-final').innerHTML = `
+    <div class="cta-bloque">
+      <p class="cta-eyebrow">✦ Tu próximo paso ✦</p>
+      <h3 class="cta-titulo">${nombreCorto}, hay algo más <em>que tu hogar quiere decirte</em></h3>
+      <p class="cta-texto">
+        Este diagnóstico es el primer paso. El siguiente es descubrir cuál es la herramienta de armonización exacta que necesita tu espacio — con el test del perfil energético de Misladys.
+      </p>
+      <a href="https://www.espazioconproposito.com/" target="_top"
+         onclick="window.top.location.href='https://www.espazioconproposito.com/';return false;"
+         class="btn-cta">
+        Hacer el test del perfil energético <span class="flecha">→</span>
+      </a>
+      <p class="cta-garantia">🌿 Gratis · 6 preguntas · Resultado personalizado</p>
+    </div>
+  `;
+}
+</script>
+</body>
+</html>

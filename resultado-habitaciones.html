@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tu Diagnóstico · Espazio con Propósito</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blanco:       #FDFAF5;
+  --crema:        #F5EDD8;
+  --crema2:       #EDE0C4;
+  --teal:         #2D7A7A;
+  --teal-claro:   #3D9999;
+  --teal-pale:    #EAF4F4;
+  --dorado:       #C8913A;
+  --dorado-claro: #E8C98A;
+  --terracota:    #C4613A;
+  --texto:        #2A2018;
+  --texto-suave:  #7A6A58;
+  --borde:        rgba(200,145,58,0.18);
+  --borde-teal:   rgba(45,122,122,0.15);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body { background:var(--blanco); color:var(--texto); font-family:'Jost',sans-serif; font-weight:300; min-height:100vh; overflow-x:hidden; }
+body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse 70% 50% at 0% 0%, rgba(45,122,122,0.06) 0%,transparent 55%), radial-gradient(ellipse 60% 40% at 100% 100%,rgba(196,97,58,0.05) 0%,transparent 55%); pointer-events:none; z-index:0; }
+
+.contenedor { position:relative; z-index:1; max-width:700px; margin:0 auto; padding:0 24px 100px; }
+
+.header { text-align:center; padding:44px 0 36px; border-bottom:0.5px solid var(--borde); margin-bottom:48px; }
+.logo-wrap { width:64px; height:64px; margin:0 auto 14px; animation:flotar 6s ease-in-out infinite; }
+.logo-wrap img { width:100%; height:100%; object-fit:contain; }
+@keyframes flotar { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-5px);} }
+.marca { font-family:'Cormorant Garamond',serif; font-size:12px; letter-spacing:0.38em; text-transform:uppercase; color:var(--texto-suave); }
+
+/* HERO RESULTADO */
+.res-hero { background:#fff; border:0.5px solid var(--borde); border-radius:20px; padding:44px 40px 36px; position:relative; overflow:hidden; margin-bottom:24px; box-shadow:0 2px 28px rgba(42,32,24,0.05); animation:entrar 0.5s cubic-bezier(.4,0,.2,1) both; }
+@keyframes entrar { from{opacity:0;transform:translateY(16px);} to{opacity:1;transform:translateY(0);} }
+.res-hero::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; opacity:0.7; }
+.acumulacion .res-hero::before { background:linear-gradient(90deg,#C4613A,#E8A070,#C4613A); }
+.bloqueo     .res-hero::before { background:linear-gradient(90deg,#2D7A7A,#7BC8C8,#2D7A7A); }
+.desconexion .res-hero::before { background:linear-gradient(90deg,#5C7A2D,#9ABE5C,#5C7A2D); }
+.equilibrio  .res-hero::before { background:linear-gradient(90deg,#C8913A,#E8C98A,#C8913A); }
+
+.res-icono { font-size:52px; text-align:center; margin-bottom:20px; display:block; }
+.res-tipo { font-size:11px; font-weight:500; letter-spacing:0.3em; text-transform:uppercase; color:var(--teal-claro); margin-bottom:10px; display:block; text-align:center; }
+.res-titulo { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,5vw,40px); font-weight:300; line-height:1.2; color:var(--texto); margin-bottom:18px; text-align:center; }
+.res-titulo em { font-style:italic; color:var(--teal); }
+.acumulacion .res-titulo em { color:var(--terracota); }
+.desconexion .res-titulo em { color:#5C7A2D; }
+.equilibrio  .res-titulo em { color:var(--dorado); }
+.res-desc { font-size:15px; line-height:1.85; color:var(--texto-suave); margin-bottom:0; }
+.res-desc strong { color:var(--texto); font-weight:500; }
+
+/* SECCIÓN ACCIONES */
+.acciones-seccion { margin-bottom:24px; animation:entrar 0.5s 0.1s cubic-bezier(.4,0,.2,1) both; }
+.sec-eyebrow { font-size:11px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--teal); margin-bottom:20px; display:flex; align-items:center; gap:10px; }
+.sec-eyebrow::after { content:''; flex:1; height:0.5px; background:linear-gradient(90deg,var(--teal),transparent); opacity:0.3; }
+.sec-titulo { font-family:'Cormorant Garamond',serif; font-size:clamp(22px,4vw,30px); font-weight:300; line-height:1.3; color:var(--texto); margin-bottom:24px; }
+.sec-titulo em { font-style:italic; color:var(--teal); }
+
+/* HABITACIONES CON ACCIONES */
+.hab-card { background:#fff; border:0.5px solid var(--borde); border-radius:16px; padding:28px 32px; margin-bottom:16px; box-shadow:0 2px 16px rgba(42,32,24,0.04); }
+.hab-card-header { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+.hab-icono { font-size:28px; flex-shrink:0; }
+.hab-nombre { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; color:var(--texto); }
+.hab-nombre em { font-style:italic; color:var(--teal); }
+.acciones-lista { list-style:none; }
+.accion-item { display:flex; align-items:flex-start; gap:14px; padding:12px 0; border-bottom:0.5px solid rgba(45,122,122,0.08); }
+.accion-item:last-child { border-bottom:none; padding-bottom:0; }
+.accion-num { flex-shrink:0; width:26px; height:26px; border-radius:50%; background:var(--teal-pale); border:0.5px solid var(--borde-teal); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--teal); margin-top:1px; }
+.accion-contenido {}
+.accion-titulo { font-size:14px; font-weight:500; color:var(--texto); margin-bottom:3px; }
+.accion-desc { font-size:13px; line-height:1.65; color:var(--texto-suave); }
+
+/* RECORDATORIO */
+.recordatorio { background:var(--crema); border:0.5px solid var(--borde); border-radius:16px; padding:28px 32px; margin-bottom:24px; text-align:center; position:relative; }
+.comilla { font-family:'Cormorant Garamond',serif; font-size:56px; line-height:0.5; color:var(--dorado-claro); opacity:0.5; position:absolute; top:18px; left:22px; }
+.recordatorio-texto { font-family:'Cormorant Garamond',serif; font-size:18px; font-style:italic; font-weight:300; line-height:1.6; color:var(--texto); position:relative; z-index:1; }
+
+/* CTA */
+.cta-final { background:#fff; border:0.5px solid var(--borde); border-radius:20px; padding:44px 40px; text-align:center; position:relative; overflow:hidden; box-shadow:0 4px 32px rgba(42,32,24,0.06); animation:entrar 0.5s 0.2s cubic-bezier(.4,0,.2,1) both; }
+.cta-final::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--teal),var(--dorado),var(--terracota)); opacity:0.6; }
+.cta-eyebrow { font-size:11px; font-weight:500; letter-spacing:0.28em; text-transform:uppercase; color:var(--dorado); margin-bottom:14px; }
+.cta-titulo { font-family:'Cormorant Garamond',serif; font-size:clamp(22px,4vw,32px); font-weight:300; line-height:1.25; color:var(--texto); margin-bottom:14px; }
+.cta-titulo em { font-style:italic; color:var(--teal); }
+.cta-texto { font-size:14px; line-height:1.75; color:var(--texto-suave); max-width:440px; margin:0 auto 28px; }
+.chips { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:28px; }
+.chip { background:var(--teal-pale); border:0.5px solid var(--borde-teal); border-radius:99px; padding:7px 16px; font-size:12px; color:var(--teal); }
+.btn-cta { display:inline-flex; align-items:center; gap:10px; padding:17px 40px; background:var(--teal); color:#fff; border:none; border-radius:12px; font-family:'Jost',sans-serif; font-size:13px; font-weight:500; letter-spacing:0.1em; text-transform:uppercase; cursor:pointer; transition:all 0.22s ease; text-decoration:none; }
+.btn-cta:hover { background:var(--teal-claro); transform:translateY(-2px); box-shadow:0 8px 24px rgba(45,122,122,0.28); }
+.cta-sub { font-size:12px; color:var(--texto-suave); margin-top:14px; opacity:0.7; }
+
+.ornamento { display:flex; align-items:center; justify-content:center; gap:14px; margin:28px 0; opacity:0.35; }
+.ornamento::before,.ornamento::after { content:''; flex:1; max-width:70px; height:0.5px; }
+.ornamento::before { background:linear-gradient(90deg,transparent,var(--dorado)); }
+.ornamento::after  { background:linear-gradient(270deg,transparent,var(--dorado)); }
+.rombo { width:5px; height:5px; background:var(--dorado); transform:rotate(45deg); }
+
+.flecha { display:inline-block; animation:moverFlecha 1.6s ease-in-out infinite; }
+@keyframes moverFlecha { 0%,100%{transform:translateX(0);} 50%{transform:translateX(4px);} }
+
+.footer { text-align:center; padding:40px 0 24px; border-top:0.5px solid var(--borde); opacity:0.4; }
+.footer p { font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:var(--texto-suave); line-height:1.8; }
+
+@media(max-width:520px) { .res-hero{padding:32px 24px 28px;} .hab-card{padding:22px 20px;} .cta-final{padding:32px 20px;} }
+</style>
+</head>
+<body>
+
+<div class="contenedor" id="main-contenedor">
+
+  <div class="header">
+    <div class="logo-wrap"><img src="https://i.ibb.co/TDRcVvxj/Dise-o-sin-t-tulo-6.png" alt="Espazio con Propósito"></div>
+    <p class="marca">Espazio con Propósito</p>
+  </div>
+
+  <div id="resultado-wrap"></div>
+
+</div>
+
+<script>
+// ── DATOS POR DIAGNÓSTICO ──
+const diagnosticos = {
+  acumulacion: {
+    icono: '🌀',
+    tipo: 'Patrón de Acumulación Energética',
+    titulo: 'Tu hogar carga lo que tú necesitas <em>soltar</em>',
+    desc: 'Tu espacio está guardando objetos, memorias y emociones que ya no te pertenecen. Esta acumulación se siente en el cuerpo — como un peso invisible que no desaparece aunque cambies de ambiente. <strong>Tu hogar está listo para soltar, igual que tú.</strong>',
+    clase: 'acumulacion',
+    recordatorio: 'Soltar del espacio es soltar del cuerpo. Cada objeto que liberas libera también una emoción que ya no necesitas cargar.',
+    habitaciones: [
+      {
+        icono: '🛋️', nombre: 'La <em>Sala</em>',
+        acciones: [
+          { titulo: 'Identifica 5 objetos para soltar', desc: 'Hoy mismo camina por tu sala y elige 5 cosas que no uses, no te gusten o tengan memorias que no quieras cargar. No tienes que botarlos hoy — solo idenfíticalos.' },
+          { titulo: 'Despeja las esquinas', desc: 'Las esquinas acumulan energía densa. Mueve los muebles o cajas que estén en las esquinas de la sala y limpia esas zonas — aunque sea barrer o pasar un trapo húmedo.' },
+          { titulo: 'Abre las ventanas 10 minutos', desc: 'La ventilación es la forma más simple de mover energía estancada. Abre ventanas y puertas al mismo tiempo para crear un flujo de aire que renueve el ambiente.' },
+        ]
+      },
+      {
+        icono: '🌙', nombre: 'El <em>Dormitorio</em>',
+        acciones: [
+          { titulo: 'Saca los objetos ajenos', desc: 'Revisa si hay objetos de ex-parejas, familiares o situaciones pasadas en tu cuarto. Hoy saca al menos uno — una foto, un regalo, una prenda — que pertenezca a quien ya no eres.' },
+          { titulo: 'Limpia debajo de la cama', desc: 'El espacio bajo la cama acumula energía densa que afecta tu sueño. Si hay cajas o cosas guardadas ahí, reorganízalas o sácalas. Ese espacio limpio transforma la calidad del descanso.' },
+          { titulo: 'Cambia la posición de algo pequeño', desc: 'Mueve una lámpara, un cuadro o un objeto decorativo de lugar. El movimiento físico activa el movimiento energético — tu cerebro registra el cambio y el espacio también.' },
+        ]
+      },
+      {
+        icono: '🌿', nombre: 'La <em>Cocina</em>',
+        acciones: [
+          { titulo: 'Limpia la nevera hoy', desc: 'Bota los alimentos vencidos, limpia los estantes y reorganiza lo que queda. Una nevera limpia y ordenada activa energéticamente la abundancia en tu hogar.' },
+          { titulo: 'Organiza un cajón', desc: 'Elige el cajón más caótico de la cocina y ordénalo completamente. No tienes que hacer toda la cocina — un cajón ordenado ya cambia la energía del espacio.' },
+          { titulo: 'Cocina algo simple con intención', desc: 'Prepara aunque sea un té o una receta simple con presencia total — sin teléfono. El acto consciente de nutrir activa la energía de abundancia en ese espacio.' },
+        ]
+      },
+    ]
+  },
+
+  bloqueo: {
+    icono: '🌊',
+    tipo: 'Patrón de Energía Bloqueada',
+    titulo: 'Tu hogar necesita <em>luz y movimiento</em>',
+    desc: 'La energía de tu espacio está estancada — sin flujo, sin vida, sin renovación. Cuando vivimos en un ambiente denso y sin movimiento energético, nuestro cuerpo y mente también se detienen. <strong>Tu hogar necesita que la energía vuelva a circular.</strong>',
+    clase: 'bloqueo',
+    recordatorio: 'La energía sigue a la atención. Cuando empiezas a moverte conscientemente por tu espacio, la energía del hogar se mueve contigo.',
+    habitaciones: [
+      {
+        icono: '🛋️', nombre: 'La <em>Sala</em>',
+        acciones: [
+          { titulo: 'Maximiza la luz natural', desc: 'Abre cortinas, limpia las ventanas y si puedes, reorganiza los muebles para que la luz llegue más lejos. La luz natural es el activador energético más poderoso y gratuito que existe.' },
+          { titulo: 'Cambia algo de lugar', desc: 'Mueve un mueble o un cuadro de posición. El movimiento físico rompe los patrones energéticos estancados — tu espacio y tu cerebro perciben el cambio inmediatamente.' },
+          { titulo: 'Pon música y muévete en el espacio', desc: 'Pon música que te guste y camina, limpia o simplemente muévete en la sala durante 10 minutos. Tu energía activa la energía del espacio — son inseparables.' },
+        ]
+      },
+      {
+        icono: '🌙', nombre: 'El <em>Dormitorio</em>',
+        acciones: [
+          { titulo: 'Ventila el dormitorio cada mañana', desc: 'Abre ventana y puerta al levantarte durante al menos 10 minutos antes de hacer la cama. Esto renueva el aire y la energía que se acumula durante el sueño.' },
+          { titulo: 'Cambia el lugar de algún objeto decorativo', desc: 'La monotonía visual crea monotonía energética. Mueve un cuadro, una lámpara o un objeto de lugar — el cambio activa tu percepción y la energía del espacio.' },
+          { titulo: 'Usa una vela o aromatizador esta noche', desc: 'El fuego y los aromas son activadores energéticos naturales. Una vela encendida 20 minutos mientras te preparas para dormir mueve y purifica la energía del dormitorio.' },
+        ]
+      },
+      {
+        icono: '💧', nombre: 'El <em>Baño</em>',
+        acciones: [
+          { titulo: 'Convierte tu ducha de hoy en un ritual', desc: 'Esta noche, dúchate con intención: agua tibia, sin apuro, consciente de que el agua no solo limpia el cuerpo sino también la energía del día. Visualiza que sueltas lo que ya no necesitas.' },
+          { titulo: 'Agrega una planta o aceite esencial', desc: 'Una planta pequeña o unas gotas de aceite esencial en el baño cambian inmediatamente la vibración del espacio. El eucalipto o la lavanda son ideales para activar y purificar.' },
+          { titulo: 'Organiza lo que está sobre el lavabo', desc: 'El orden en el baño activa la energía de claridad y renovación. Hoy mismo organiza los productos sobre el lavabo — conserva solo lo que usas regularmente.' },
+        ]
+      },
+    ]
+  },
+
+  desconexion: {
+    icono: '🌿',
+    tipo: 'Patrón de Desconexión del Espacio',
+    titulo: 'Tu hogar y tú necesitan <em>reconectarse</em>',
+    desc: 'No te sientes en casa en tu propia casa. Hay una desconexión entre el espacio y quien lo habita — como si el hogar fuera de otro o de otra época de tu vida. <strong>Este espacio puede volver a ser tuyo de verdad.</strong>',
+    clase: 'desconexion',
+    recordatorio: 'Tu hogar es una extensión de ti. Cuando empiezas a habitarlo con intención, él empieza a responderte.',
+    habitaciones: [
+      {
+        icono: '🛋️', nombre: 'La <em>Sala</em>',
+        acciones: [
+          { titulo: 'Agrega algo que te represente hoy', desc: 'Coloca en la sala un objeto que hable de quién eres ahora — un libro que ames, una planta, una foto tuya reciente. No de quien eras, sino de quien eres.' },
+          { titulo: 'Siéntate en la sala sin pantallas 10 minutos', desc: 'Solo tú y el espacio. Observa cómo te sientes en él. Nota qué parte se siente más tuya y qué parte se siente ajena. Esa observación ya es el inicio de la reconexión.' },
+          { titulo: 'Cambia la disposición de los cojines o mantas', desc: 'Un cambio pequeño hecho con intención envía al espacio — y a tu cerebro — la señal de que este lugar está vivo y es tuyo.' },
+        ]
+      },
+      {
+        icono: '🌙', nombre: 'El <em>Dormitorio</em>',
+        acciones: [
+          { titulo: 'Crea un ritual de entrada al dormitorio', desc: 'Esta noche, cuando entres a dormir, hazlo conscientemente: respira profundo en la puerta, di internamente "este es mi espacio de descanso". Los rituales anclan energéticamente.' },
+          { titulo: 'Coloca algo tuyo y solo tuyo en el cuarto', desc: 'Un diario, un objeto que ames, algo que te represente. El dormitorio debe tener objetos que hablen de ti — no del pasado ni de otros.' },
+          { titulo: 'Establece una temperatura y luz que sea solo tuya', desc: 'Ajusta la temperatura, las cortinas o la luz de noche a lo que tu cuerpo pide. Tomar decisiones conscientes sobre el espacio lo hace más tuyo cada vez.' },
+        ]
+      },
+      {
+        icono: '✨', nombre: 'Tu <em>Espacio de Trabajo</em>',
+        acciones: [
+          { titulo: 'Coloca algo que te inspire a la vista', desc: 'Una frase, una foto, un objeto que represente lo que estás construyendo. Tu espacio de trabajo debe hablarte de tu propósito cada vez que te sientas.' },
+          { titulo: 'Delimita físicamente tu espacio de trabajo', desc: 'Aunque sea una mesa en un rincón — que ese sea tu lugar. Cuando el espacio tiene límites claros, la energía y el enfoque también los tienen.' },
+          { titulo: 'Comienza el día de trabajo con un mini ritual', desc: 'Antes de abrir el computador: ordena tu escritorio, respira profundo y declara qué quieres lograr hoy. Este acto de 2 minutos activa la energía del espacio y la tuya.' },
+        ]
+      },
+    ]
+  },
+
+  equilibrio: {
+    icono: '✨',
+    tipo: 'Patrón de Equilibrio Energético',
+    titulo: 'Tu hogar tiene una <em>base sólida</em> para profundizar',
+    desc: 'Tu espacio ya tiene una energía positiva y equilibrada. Lo que puedes hacer ahora es afinar — activar capas más profundas de transformación que lleven tu hogar de un espacio agradable a un espacio que trabaja activamente por tu bienestar y tus metas. <strong>Siempre hay una capa más de transformación disponible.</strong>',
+    clase: 'equilibrio',
+    recordatorio: 'Un espacio equilibrado es el punto de partida, no el destino. Desde aquí puedes activar abundancia, protección y propósito en cada rincón.',
+    habitaciones: [
+      {
+        icono: '🛋️', nombre: 'La <em>Sala</em>',
+        acciones: [
+          { titulo: 'Activa un punto de abundancia', desc: 'En el rincón sureste de tu sala (según el feng shui) coloca algo que represente abundancia para ti — una planta verde, un cristal de citrino o un objeto dorado. Hazlo con intención.' },
+          { titulo: 'Establece una zona de conexión', desc: 'Define un área de la sala solo para estar presente con las personas que amas — sin pantallas. Pon ahí una vela, cojines cómodos. El espacio con intención genera experiencias con intención.' },
+          { titulo: 'Coloca una planta nueva', desc: 'Una planta nueva en tu sala inyecta energía viva y fresca en el espacio. Elige una que te guste estéticamente — la belleza también es energía.' },
+        ]
+      },
+      {
+        icono: '🌙', nombre: 'El <em>Dormitorio</em>',
+        acciones: [
+          { titulo: 'Agrega cristales de protección', desc: 'La turmalina negra o el amatista en las esquinas del dormitorio crean un campo de protección energética que profundiza el descanso. Colócalos con la intención de proteger tu sueño.' },
+          { titulo: 'Crea un ritual de cierre del día', desc: 'Antes de dormir: apaga pantallas 20 minutos antes, haz 3 respiraciones profundas en la puerta de tu cuarto y declara internamente que ese espacio es tu santuario de restauración.' },
+          { titulo: 'Usa lavanda para profundizar el descanso', desc: 'Unas gotas de aceite esencial de lavanda en la almohada o un difusor en el cuarto activan el sistema nervioso parasimpático y profundizan la calidad del sueño.' },
+        ]
+      },
+      {
+        icono: '✨', nombre: 'Tu <em>Espacio de Trabajo</em>',
+        acciones: [
+          { titulo: 'Activa la energía de éxito con citrino', desc: 'El cristal de citrino es conocido como la "piedra del comerciante" — atrae abundancia y claridad mental. Colócalo en tu escritorio con la intención de potenciar tus proyectos.' },
+          { titulo: 'Crea una declaración de propósito visible', desc: 'Escribe en una hoja grande tu propósito principal de este año y ponla a la vista en tu espacio de trabajo. Lo que ves a diario se convierte en lo que manifiestas.' },
+          { titulo: 'Planta de romero para el enfoque', desc: 'El romero activa la concentración y la memoria. Una pequeña planta de romero cerca de tu espacio de trabajo es un activador energético natural para la productividad.' },
+        ]
+      },
+    ]
+  }
+};
+
+// ── CARGAR RESULTADO ──
+function cargarResultado() {
+  const params = new URLSearchParams(window.location.search);
+  const diag = params.get('diagnostico')
+    || sessionStorage.getItem('diagnosticoHab')
+    || localStorage.getItem('diagnosticoHab')
+    || 'bloqueo';
+
+  const data = diagnosticos[diag] || diagnosticos['bloqueo'];
+  const wrap = document.getElementById('resultado-wrap');
+  document.getElementById('main-contenedor').classList.add(data.clase);
+
+  let habitacionesHTML = data.habitaciones.map(hab => {
+    const accionesHTML = hab.acciones.map((a, i) => `
+      <li class="accion-item">
+        <div class="accion-num">${i+1}</div>
+        <div class="accion-contenido">
+          <p class="accion-titulo">${a.titulo}</p>
+          <p class="accion-desc">${a.desc}</p>
+        </div>
+      </li>`).join('');
+
+    return `
+      <div class="hab-card">
+        <div class="hab-card-header">
+          <span class="hab-icono">${hab.icono}</span>
+          <h4 class="hab-nombre">${hab.nombre}</h4>
+        </div>
+        <ul class="acciones-lista">${accionesHTML}</ul>
+      </div>`;
+  }).join('');
+
+  wrap.innerHTML = `
+    <!-- HERO RESULTADO -->
+    <div class="res-hero">
+      <span class="res-icono">${data.icono}</span>
+      <span class="res-tipo">${data.tipo}</span>
+      <h1 class="res-titulo">${data.titulo}</h1>
+      <p class="res-desc">${data.desc}</p>
+    </div>
+
+    <!-- ACCIONES CONCRETAS -->
+    <div class="acciones-seccion">
+      <p class="sec-eyebrow">✦ 3 acciones para hoy</p>
+      <h2 class="sec-titulo">Lo que puedes hacer <em>ahora mismo</em><br>en tu hogar</h2>
+      ${habitacionesHTML}
+    </div>
+
+    <!-- RECORDATORIO -->
+    <div class="recordatorio">
+      <span class="comilla">"</span>
+      <p class="recordatorio-texto">${data.recordatorio}</p>
+    </div>
+
+    <div class="ornamento"><div class="rombo"></div></div>
+
+    <!-- CTA -->
+    <div class="cta-final">
+      <p class="cta-eyebrow">✦ El siguiente nivel ✦</p>
+      <h3 class="cta-titulo">Descubre la herramienta exacta<br>que <em>necesita tu espacio</em></h3>
+      <p class="cta-texto">
+        Estas acciones son el primer paso. El siguiente es conocer cuál herramienta de armonización — cristales, plantas, sonoterapia o Reiki — es la ideal para el patrón energético de tu hogar.
+      </p>
+      <div class="chips">
+        <span class="chip">✦ 6 preguntas</span>
+        <span class="chip">✦ Resultado personalizado</span>
+        <span class="chip">✦ 100% gratuito</span>
+      </div>
+      <a href="https://www.espazioconproposito.com/"
+         target="_top"
+         onclick="window.top.location.href='https://www.espazioconproposito.com/';return false;"
+         class="btn-cta">
+        Hacer el test del perfil energético <span class="flecha">→</span>
+      </a>
+      <p class="cta-sub">🌿 Sesiones 1:1 online · espazioconproposito.com</p>
+    </div>
+
+    <div class="footer">
+      <p>© 2026 Espazio con Propósito · Misladys Rivero</p>
+      <p>786-269-6910 · espazioconproposito.com</p>
+    </div>
+  `;
+}
+
+cargarResultado();
+</script>
+</body>
+</html>
