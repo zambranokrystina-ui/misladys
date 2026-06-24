@@ -1995,18 +1995,15 @@ async function enviarASysteme(nombre, email, perfilTipo) {
       headers: { 'Accept': 'application/json' }
     });
 
-    // Enviar a Google Sheets (hoja de Excel)
-    await fetch('https://script.google.com/macros/s/AKfycbwM_8Bei4mKYjHS11_s9cpJYIkJdxXDWUz6DLD0T0Axr8iNpGgHaFjS1scSRX7rkAcYdg/exec', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nombre: nombre,
-        email: email,
-        perfil_energetico: perfilTipo,
-        respuestas_del_test: resumenRespuestas,
-        fuente: 'Test de Armonización Espazio con Propósito'
-      })
+    // Enviar a Google Sheets via GET (evita CORS)
+    const params = new URLSearchParams({
+      nombre: nombre,
+      email: email,
+      perfil_energetico: perfilTipo,
+      respuestas_del_test: resumenRespuestas,
+      fuente: 'Test de Armonizacion Espazio con Proposito'
     });
+    new Image().src = 'https://script.google.com/macros/s/AKfycbwK2xlcMTXBh3qG5U1LdhyNf8U_zhOoYBeXOq6C52a5mSemSZftn2Jsa_a4PEzpzR2dew/exec?' + params.toString();
   } catch(e) {
     console.log('Formspree error:', e);
   }
