@@ -1966,17 +1966,35 @@ function calcularPerfil() {
 
 async function enviarASysteme(nombre, email, perfilTipo) {
   try {
-    await fetch('https://hook.us2.make.com/wnxteu7aafbniiblfkxi8we8zkqe2gec', {
+    // Construir resumen de respuestas del test
+    const nombresPreguntas = [
+      'Pregunta 1 - ¿Qué imagen te genera más alivio?',
+      'Pregunta 2 - Palabra que resuena',
+      'Pregunta 3 - ¿Qué te falta hoy?',
+      'Pregunta 4 - ¿Cómo se siente tu cuerpo en casa?',
+      'Pregunta 5 - Frase que resuena',
+      'Pregunta 6 - ¿Qué acompañamiento necesitas?',
+    ];
+    let resumenRespuestas = '';
+    for(let i = 0; i < 6; i++) {
+      const r = respuestas[i] || '-';
+      resumenRespuestas += nombresPreguntas[i] + ': ' + r + '\n';
+    }
+
+    const formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('email', email);
+    formData.append('perfil_energetico', perfilTipo);
+    formData.append('respuestas_del_test', resumenRespuestas);
+    formData.append('fuente', 'Test de Armonización Espazio con Propósito');
+
+    await fetch('https://formspree.io/f/xeeboywk', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        nombre: nombre,
-        email: email,
-        perfil: perfilTipo
-      })
+      body: formData,
+      headers: { 'Accept': 'application/json' }
     });
   } catch(e) {
-    console.log('Make webhook error:', e);
+    console.log('Formspree error:', e);
   }
 }
 
