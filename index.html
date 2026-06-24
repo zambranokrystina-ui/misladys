@@ -1988,10 +1988,24 @@ async function enviarASysteme(nombre, email, perfilTipo) {
     formData.append('respuestas_del_test', resumenRespuestas);
     formData.append('fuente', 'Test de Armonización Espazio con Propósito');
 
+    // Enviar a Formspree (email a Misladys)
     await fetch('https://formspree.io/f/xeeboywk', {
       method: 'POST',
       body: formData,
       headers: { 'Accept': 'application/json' }
+    });
+
+    // Enviar a Google Sheets (hoja de Excel)
+    await fetch('https://script.google.com/macros/s/AKfycbwWsmovfDjuU21lAD5lodD5RRGfP0AEYYX8mEGRkTJ6ywUybLxl4Rynx1HDNSqtX1viyw/exec', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nombre: nombre,
+        email: email,
+        perfil_energetico: perfilTipo,
+        respuestas_del_test: resumenRespuestas,
+        fuente: 'Test de Armonización Espazio con Propósito'
+      })
     });
   } catch(e) {
     console.log('Formspree error:', e);
